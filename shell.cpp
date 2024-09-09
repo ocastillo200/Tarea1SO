@@ -351,7 +351,7 @@ int main()
     string input;
     while (true)
     {
-        cout << "shell> ";
+        cout << "SkibidiShell:$";
         getline(cin, input);
         vector<string> pipe_segments;
         string delimiter = "|";
