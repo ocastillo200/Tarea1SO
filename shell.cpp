@@ -133,7 +133,7 @@ void executeCommand(const vector<string> &cmd_args)
     }
 }
 
-void executeWithPipes(const vector<vector<string>> &commands)
+void executeWithPipes(const string &full_command, const vector<vector<string>> &commands)
 {
     int num_pipes = commands.size() - 1;
     int pipefds[2 * num_pipes];
@@ -145,7 +145,6 @@ void executeWithPipes(const vector<vector<string>> &commands)
             exit(EXIT_FAILURE);
         }
     }
-
     int pid;
     int j = 0;
     for (int i = 0; i < commands.size(); i++)
@@ -192,6 +191,10 @@ void executeWithPipes(const vector<vector<string>> &commands)
     for (int i = 0; i < commands.size(); i++)
     {
         wait(NULL);
+    }
+    if (full_command.substr(0, 4) != "favs")
+    {
+        favorites[next_id++] = full_command;
     }
 }
 
@@ -240,6 +243,7 @@ void executeFavsCommand(const vector<string> &args)
         }
         favorites_file = args[1];
         cout << "Archivo de favoritos creado en " << favorites_file << endl;
+        saveFavorites();
     }
     else if (args[0] == "--mostrar")
     {
@@ -295,6 +299,7 @@ void executeFavsCommand(const vector<string> &args)
     else if (args[0] == "--borrar")
     {
         favorites.clear();
+        next_id = 1;
         cout << "Todos los comandos favoritos han sido borrados." << endl;
     }
     else if (args[0] == "--ejecutar")
@@ -351,8 +356,9 @@ int main()
     string input;
     while (true)
     {
-        cout << "SkibidiShell:$";
+        cout << "SkibidiShell:$ ";
         getline(cin, input);
+        string input_copy = input;
         vector<string> pipe_segments;
         string delimiter = "|";
         size_t pos = 0;
@@ -362,6 +368,7 @@ int main()
             input.erase(0, pos + delimiter.length());
         }
         pipe_segments.push_back(input);
+
         if (pipe_segments.size() == 1)
         {
             auto args = parseInput(pipe_segments[0]);
@@ -397,7 +404,7 @@ int main()
             {
                 commands_with_args.push_back(parseInput(segment));
             }
-            executeWithPipes(commands_with_args);
+            executeWithPipes(input_copy, commands_with_args);
         }
     }
     return 0;
