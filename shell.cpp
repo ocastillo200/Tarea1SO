@@ -343,6 +343,7 @@ void executeFavsCommand(const vector<string> &args)
 
 void setReminder(int seconds, const string &message)
 {
+    favorites[next_id++] = "set recordatorio " + to_string(seconds) + " " + message;
     thread([seconds, message]()
            {
         this_thread::sleep_for(chrono::seconds(seconds));
