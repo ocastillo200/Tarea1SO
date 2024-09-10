@@ -1,14 +1,14 @@
-#Proyecto Sistemas Operativos: Interprete de comandos (Shell)
+# Proyecto Sistemas Operativos: Interprete de comandos (Shell)
 
 Este proyecto consiste en la implementación de un intérprete de comandos (shell) como parte del curso de Sistemas Operativos. La shell desarrollada permite ejecutar varios comandos típicos de sistemas operativos basados en Unix/Linux.
 
-##Integrantes:
+## Integrantes:
 -Oscar Castillo
 -Gaspar Jimenez
 -Matias Gayoso
 -Pedro Muñoz
 
-##Instrucciones de uso:
+## Instrucciones de uso:
 1. Clonar repositorio
 ```bash
 git clone https://github.com/ocastillo200/Tarea1SO.git
