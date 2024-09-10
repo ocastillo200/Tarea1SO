@@ -237,7 +237,7 @@ void executeFavsCommand(const vector<string> &args)
         cout << "  --buscar <cmd>   Busca comandos que contengan la subcadena <cmd>" << endl;
         cout << "  --borrar         Borra todos los comandos favoritos" << endl;
         cout << "  --ejecutar <num> Ejecuta el comando con el número proporcionado" << endl;
-        cout << "  --cargar         Carga comandos desde el archivo de favoritos y muestra en pantalla" << endl;
+        cout << "  --cargar <ruta>  Carga comandos desde el archivo de favoritos y muestra en pantalla" << endl;
         cout << "  --guardar        Guarda los comandos favoritos actuales en el archivo" << endl;
         return;
     }
@@ -362,12 +362,27 @@ void executeFavsCommand(const vector<string> &args)
 
 void setReminder(int seconds, const string &message)
 {
-    favorites[next_id++] = "set recordatorio " + to_string(seconds) + " " + message;
+    string reminderCommand = "set recordatorio " + to_string(seconds) + " " + message;
+    bool existsInFavorites = false;
+
+    for (const auto &fav : favorites)
+    {
+        if (fav.second == reminderCommand)
+        {
+            existsInFavorites = true;
+            break;
+        }
+    }
+    if (!existsInFavorites)
+    {
+        favorites[next_id++] = reminderCommand;
+    }
     thread([seconds, message]()
            {
         this_thread::sleep_for(chrono::seconds(seconds));
         cout << "Recordatorio: " << message << endl << "Presione Enter para salir..." << endl; })
         .detach();
+
     cout << "Recordatorio establecido en " << seconds << " segundos." << endl;
 }
 
