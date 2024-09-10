@@ -3,10 +3,10 @@
 Este proyecto consiste en la implementación de un intérprete de comandos (shell) como parte del curso de Sistemas Operativos. La shell desarrollada permite ejecutar varios comandos típicos de sistemas operativos basados en Unix/Linux.
 
 ## Integrantes:
--Oscar Castillo
--Gaspar Jimenez
--Matias Gayoso
--Pedro Muñoz
+- Oscar Castillo
+- Gaspar Jimenez
+- Matias Gayoso
+- Pedro Muñoz
 
 ## Instrucciones de uso:
 1. Clonar repositorio
