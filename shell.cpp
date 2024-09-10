@@ -198,11 +198,18 @@ void executeWithPipes(const string &full_command, const vector<vector<string>> &
     }
 }
 
-void loadFavorites()
+void loadFavorites(const string &file_path)
 {
-    if (favorites_file.empty())
+    if (file_path.empty())
         return;
-    ifstream ifs(favorites_file);
+
+    ifstream ifs(file_path);
+    if (!ifs.is_open())
+    {
+        cout << "No se pudo abrir el archivo: " << file_path << endl;
+        return;
+    }
+
     string line;
     while (getline(ifs, line))
     {
@@ -322,13 +329,25 @@ void executeFavsCommand(const vector<string> &args)
     }
     else if (args[0] == "--cargar")
     {
-        if (favorites_file.empty())
+        if (args.size() < 2)
         {
-            cout << "Primero debes crear un archivo de favoritos." << endl;
-            return;
+            if (favorites_file.empty())
+            {
+                cout << "Primero debes crear un archivo de favoritos." << endl;
+                return;
+            }
+            else
+            {
+                loadFavorites(favorites_file);
+                cout << "Favoritos cargados desde " << favorites_file << endl;
+            }
         }
-        loadFavorites();
-        cout << "Favoritos cargados desde " << favorites_file << endl;
+        else
+        {
+            string file_path = args[1];
+            loadFavorites(file_path);
+            cout << "Favoritos cargados desde " << file_path << endl;
+        }
     }
     else if (args[0] == "--guardar")
     {
